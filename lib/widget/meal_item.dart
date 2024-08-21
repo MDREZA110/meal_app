@@ -8,6 +8,14 @@ class MealItem extends StatelessWidget {
 
   final Meal meal;
 
+  String get complexityText {
+    return meal.complexity.name[0].toUpperCase() + meal.complexity.name.substring(1);
+  }
+
+  String get affordabilityText {
+    return meal.affordability.name[0].toUpperCase() + meal.affordability.name.substring(1);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -39,7 +47,7 @@ class MealItem extends StatelessWidget {
                   children: [
                     Text(
                       meal.title,
-                      maxLines: 2,
+                      maxLines: 1,
                       textAlign: TextAlign.center,
                       softWrap: true,
                       overflow: TextOverflow.ellipsis,
@@ -50,12 +58,26 @@ class MealItem extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(
-                      height: 12,
+                      width: 12,
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         MealItemTrait(
-                            icon: Icons.schedule, label: '${meal.duration} min')
+                            icon: Icons.schedule,
+                            label: '${meal.duration} min'),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        MealItemTrait(
+                            icon: Icons.bar_chart, label: complexityText ),
+                            
+                            const SizedBox(
+                          width: 12,
+                        ),
+                        MealItemTrait(
+                            icon: Icons.attach_money, label: affordabilityText ),
+                            
                       ],
                     )
                   ],
