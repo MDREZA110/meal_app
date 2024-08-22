@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meals/data/dummy_data.dart';
+//import 'package:meals/models/meal.dart';
 import 'package:meals/widget/category_grid.dart';
 import 'package:meals/screens/meals.dart';
 import "package:meals/models/category.dart";
@@ -18,6 +19,7 @@ class CategriesScreen extends StatelessWidget {
       ),
     ); // Navigator.push(context, route);
   }
+
 
   @override
   Widget build(BuildContext context) {

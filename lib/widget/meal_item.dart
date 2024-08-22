@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meals/models/meal.dart';
+import 'package:meals/screens/meals_details.dart';
+// import 'package:meals/screens/meals_details.dart';
 import 'package:meals/widget/meal_item_trait.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -9,23 +11,36 @@ class MealItem extends StatelessWidget {
   final Meal meal;
 
   String get complexityText {
-    return meal.complexity.name[0].toUpperCase() + meal.complexity.name.substring(1);
+    return meal.complexity.name[0].toUpperCase() +
+        meal.complexity.name.substring(1);
   }
 
   String get affordabilityText {
-    return meal.affordability.name[0].toUpperCase() + meal.affordability.name.substring(1);
+    return meal.affordability.name[0].toUpperCase() +
+        meal.affordability.name.substring(1);
+  }
+
+  void onSelctedMeal(BuildContext context, Meal meal) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) =>
+           MealsDetails( selectedMeal: meal,),
+      ),
+    ); 
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      margin: const EdgeInsets.all(8),
-      elevation: 2,
-      clipBehavior: Clip
-          .hardEdge, // to enforce shape of cade on stack(here) or any other widget
-      child: InkWell(
-        onTap: () {},
+    return InkWell(
+      // ignore: avoid_print
+      onTap: () => onSelctedMeal(context, meal),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        margin: const EdgeInsets.all(8),
+        elevation: 2,
+        clipBehavior: Clip
+            .hardEdge, // to enforce shape of cade on stack(here) or any other widget
+
         child: Stack(
           children: [
             FadeInImage(
@@ -70,14 +85,12 @@ class MealItem extends StatelessWidget {
                           width: 12,
                         ),
                         MealItemTrait(
-                            icon: Icons.bar_chart, label: complexityText ),
-                            
-                            const SizedBox(
+                            icon: Icons.bar_chart, label: complexityText),
+                        const SizedBox(
                           width: 12,
                         ),
                         MealItemTrait(
-                            icon: Icons.attach_money, label: affordabilityText ),
-                            
+                            icon: Icons.attach_money, label: affordabilityText),
                       ],
                     )
                   ],
