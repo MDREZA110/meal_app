@@ -1,55 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:meals/models/meal.dart';
-import 'package:transparent_image/transparent_image.dart';
 
-// import 'package:meals/models/meal.dart';
-class MealsDetails extends StatelessWidget {
-  const MealsDetails({
+import 'package:meals/models/meal.dart';
+
+class MealDetailsScreen extends StatelessWidget {
+  const MealDetailsScreen({
     super.key,
-    required this.selectedMeal,
-    // required this.onSelctedMeal
+    required this.meal,
   });
 
-  final Meal selectedMeal;
+  final Meal meal;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(selectedMeal.title)),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            FadeInImage(
-              placeholder: MemoryImage(kTransparentImage),
-              image: NetworkImage(selectedMeal.imageUrl),
-              fit: BoxFit.cover,
-              height: 300,
-              width: double.infinity,
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            const Text(
-              'Ingeredients',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.white),
-            ),
-            Text(
-              selectedMeal.ingredients.join('\n'),
-              //selectedMeal.ingredients.toString(),
-              textAlign: TextAlign.left,
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            )
-          ],
+        appBar: AppBar(
+          title: Text(meal.title),
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Image.network(
+                meal.imageUrl,
+                height: 300,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+              const SizedBox(height: 14),
+              Text(
+                'Ingredients',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.error,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 14,
+              ),
+              for (final ingredient in meal.ingredients)
+                Text(
+                  ingredient,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: Theme.of(context).colorScheme.onSurface),
+                ),
+              const SizedBox(
+                height: 30,
+              ),
+              Text(
+                'Steps',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.error,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 14,
+              ),
+              for (final step in meal.steps)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  child: Text(
+                    step,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Theme.of(context).colorScheme.onSurface),
+                  ),
+                ),
+            ],
+          ),
+        ));
   }
 }

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:meals/models/meal.dart';
-import 'package:meals/screens/meals_details.dart';
-// import 'package:meals/screens/meals_details.dart';
 import 'package:meals/widget/meal_item_trait.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:meals/models/meal.dart';
 
 class MealItem extends StatelessWidget {
-  const MealItem({super.key, required this.meal});
+  const MealItem({
+    super.key,
+    required this.meal,
+    required this.onSelectMeal,
+  });
 
   final Meal meal;
+  final void Function(Meal meal) onSelectMeal;
 
   String get complexityText {
     return meal.complexity.name[0].toUpperCase() +
@@ -20,27 +23,19 @@ class MealItem extends StatelessWidget {
         meal.affordability.name.substring(1);
   }
 
-  void onSelctedMeal(BuildContext context, Meal meal) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (ctx) =>
-           MealsDetails( selectedMeal: meal,),
-      ),
-    ); 
-  }
-
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      // ignore: avoid_print
-      onTap: () => onSelctedMeal(context, meal),
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        margin: const EdgeInsets.all(8),
-        elevation: 2,
-        clipBehavior: Clip
-            .hardEdge, // to enforce shape of cade on stack(here) or any other widget
-
+    return Card(
+      margin: const EdgeInsets.all(8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      clipBehavior: Clip.hardEdge,
+      elevation: 2,
+      child: InkWell(
+        onTap: () {
+          onSelectMeal(meal);
+        },
         child: Stack(
           children: [
             FadeInImage(
@@ -62,41 +57,40 @@ class MealItem extends StatelessWidget {
                   children: [
                     Text(
                       meal.title,
-                      maxLines: 1,
+                      maxLines: 2,
                       textAlign: TextAlign.center,
                       softWrap: true,
-                      overflow: TextOverflow.ellipsis,
+                      overflow: TextOverflow.ellipsis, // Very long text ...
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(
-                      width: 12,
-                    ),
+                    const SizedBox(height: 12),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         MealItemTrait(
-                            icon: Icons.schedule,
-                            label: '${meal.duration} min'),
-                        const SizedBox(
-                          width: 12,
+                          icon: Icons.schedule,
+                          label: '${meal.duration} min',
                         ),
+                        const SizedBox(width: 12),
                         MealItemTrait(
-                            icon: Icons.bar_chart, label: complexityText),
-                        const SizedBox(
-                          width: 12,
+                          icon: Icons.work,
+                          label: complexityText,
                         ),
+                        const SizedBox(width: 12),
                         MealItemTrait(
-                            icon: Icons.attach_money, label: affordabilityText),
+                          icon: Icons.attach_money,
+                          label: affordabilityText,
+                        )
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
