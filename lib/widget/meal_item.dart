@@ -8,6 +8,7 @@ class MealItem extends StatelessWidget {
     super.key,
     required this.meal,
     required this.onSelectMeal,
+    
   });
 
   final Meal meal;
