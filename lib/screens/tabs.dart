@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/data/dummy_data.dart';
 import 'package:meals/screens/categories.dart';
 import 'package:meals/screens/filters.dart';
 import 'package:meals/screens/meals.dart';
 import 'package:meals/models/meal.dart';
 import 'package:meals/widget/main_drawer.dart';
+
+import 'package:meals/providers/meals_provider.dart';
 
 const kinitialFilters = {
   // using map (keys)
@@ -14,14 +17,14 @@ const kinitialFilters = {
   Filter.vegan: false,
 };
 
-class TabScreen extends StatefulWidget {
+class TabScreen extends ConsumerStatefulWidget {
   const TabScreen({super.key});
 
   @override
-  State<TabScreen> createState() => _TabScreenState();
+  ConsumerState<TabScreen> createState() => _TabScreenState();
 }
 
-class _TabScreenState extends State<TabScreen> {
+class _TabScreenState extends ConsumerState<TabScreen> {
   int _selectPageIndex = 0;
   final List<Meal> _favoriteMeals = [];
   Map<Filter, bool> _selectedfilters = kinitialFilters;
@@ -61,19 +64,22 @@ class _TabScreenState extends State<TabScreen> {
     if (identifire == 'filters') {
       final result = await Navigator.of(context).push<Map<Filter, bool>>(
         MaterialPageRoute(
-          builder: (ctx) =>  FiltersScreen(currentFilters: _selectedfilters ,),
+          builder: (ctx) => FiltersScreen(
+            currentFilters: _selectedfilters,
+          ),
         ),
       );
       setState(() {
-        _selectedfilters = result ??
-          kinitialFilters;  
-      });                   //^    by "??" if result is null then kinitialFilters
-    }                                          //^    will be assingd to _selectedfilters
+        _selectedfilters = result ?? kinitialFilters;
+      }); //^    by "??" if result is null then kinitialFilters
+    } //^    will be assingd to _selectedfilters
   }
 
   @override
   Widget build(BuildContext context) {
-    final availableMeals = dummyMeals.where((meal) {
+    final meals = ref.watch(mealsprovider);
+
+    final availableMeals = meals.where((meal) {
       if (_selectedfilters[Filter.glutenFree]! && !meal.isLactoseFree) {
         return false;
       }
