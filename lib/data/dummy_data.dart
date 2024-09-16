@@ -105,14 +105,14 @@ const dummyMeals = [
     duration: 10,
     ingredients: [
       '1 Slice White Bread',
-      '1 Slice Ham',
+      '1 Slice muttone',
       '1 Slice Pineapple',
       '1-2 Slices of Cheese',
       'Butter'
     ],
     steps: [
       'Butter one side of the white bread',
-      'Layer ham, the pineapple and cheese on the white bread',
+      'Layer motton, the pineapple and cheese on the white bread',
       'Bake the toast for round about 10 minutes in the oven at 200°C'
     ],
     isGlutenFree: false,
@@ -126,11 +126,11 @@ const dummyMeals = [
       'c2',
       'c3',
     ],
-    title: 'Classic Hamburger',
+    title: 'Chicken Burger',
     affordability: Affordability.pricey,
     complexity: Complexity.simple,
     imageUrl:
-        'https://cdn.pixabay.com/photo/2014/10/23/18/05/burger-500054_1280.jpg',
+        'https://cdn.pixabay.com/photo/2024/09/06/10/52/ai-generated-9027265_1280.jpg',
     duration: 45,
     ingredients: [
       '300g Cattle Hack',
